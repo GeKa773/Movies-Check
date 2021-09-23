@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/navigation"
+    app:startDestination="@id/moviesFragment">
+
+    <fragment
+        android:id="@+id/moviesFragment"
+        android:name="com.gekaradchenko.moviescheck.ui.movies.MoviesFragment"
+        android:label="MoviesFragment" >
+        <action
+            android:id="@+id/action_moviesFragment_to_movieItemFragment"
+            app:destination="@id/movieItemFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/movieItemFragment"
+        android:name="com.gekaradchenko.moviescheck.ui.movieitem.MovieItemFragment"
+        android:label="MovieItemFragment" />
+</navigation>
