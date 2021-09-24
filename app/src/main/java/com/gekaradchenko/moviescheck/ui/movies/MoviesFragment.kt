@@ -9,9 +9,11 @@ import android.view.ViewGroup
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
 import com.gekaradchenko.moviescheck.R
 import com.gekaradchenko.moviescheck.databinding.FragmentMoviesBinding
 import com.gekaradchenko.moviescheck.network.BASE_URL
+import com.gekaradchenko.moviescheck.ui.movies.adapter.MoviesAdapter
 import com.gekaradchenko.moviescheck.ui.movies.viewmodel.MoviesFragmentViewModel
 import com.gekaradchenko.moviescheck.ui.movies.viewmodel.MoviesFragmentViewModelFactory
 import org.jsoup.Jsoup
@@ -21,6 +23,7 @@ class MoviesFragment : Fragment() {
 
     private lateinit var binding: FragmentMoviesBinding
     private lateinit var viewModel: MoviesFragmentViewModel
+    private lateinit var moviesAdapter: MoviesAdapter
 
 
     override fun onCreateView(
@@ -33,8 +36,17 @@ class MoviesFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
 
-        viewModel.moviesList.observe(viewLifecycleOwner,{
-            println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!      !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+        //movie item click
+        moviesAdapter = MoviesAdapter {
+
+        }
+        binding.moviesRecyclerView.apply {
+            adapter = moviesAdapter
+            layoutManager = GridLayoutManager(requireContext(), 2)
+        }
+
+        viewModel.moviesList.observe(viewLifecycleOwner, {
+            moviesAdapter.submitList(it)
         })
 
 
