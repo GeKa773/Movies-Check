@@ -11,8 +11,8 @@ const val RU = "/ru"
 const val ENG = "/en"
 
 const val FILMS = "/films"
-const val MULT = "/mult"
 const val SERIES = "/series"
+const val MULT = "/mult"
 const val PREMIERE = "/premiere"
 
 const val FILTER_POPULARITY_DEFAULT = ""

@@ -12,9 +12,12 @@
     </data>
 
     <androidx.cardview.widget.CardView
-        android:layout_width="wrap_content"
-        android:layout_margin="8dp"
-        android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_8"
+        android:padding="@dimen/padding_8"
+        app:cardBackgroundColor="@color/card_background_color"
+        app:cardElevation="@dimen/default_card_elevation">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -24,8 +27,9 @@
                 android:id="@+id/image"
                 android:layout_width="172dp"
                 android:layout_height="248dp"
-                android:scaleType="fitXY"
+                android:layout_margin="@dimen/margin_item_image"
                 android:load="@{data.image}"
+                android:scaleType="fitXY"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -36,7 +40,7 @@
                 style="@style/TitleText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="@dimen/margin_item_titile_top"
                 android:fontFamily="sans-serif-smallcaps"
                 android:gravity="center"
                 android:text="@{data.name}"
@@ -50,20 +54,24 @@
                 style="@style/BodyText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                app:layout_constraintEnd_toStartOf="@id/genreTextView"
+                android:layout_marginTop="@dimen/margin_4"
                 android:text="@{data.year}"
-                tools:text="2021"
-                android:layout_marginTop="4dp"
+                android:layout_marginEnd="@dimen/margin_4"
+                app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="@+id/titleTextView"
-                app:layout_constraintTop_toBottomOf="@+id/titleTextView" />
+                app:layout_constraintTop_toBottomOf="@+id/titleTextView"
+                tools:text="2021" />
 
             <TextView
                 android:id="@+id/genreTextView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="@{data.genre}"
                 style="@style/BodyText"
-                android:layout_marginStart="6dp"
-                android:layout_marginTop="4dp"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_4"
+                android:layout_marginTop="@dimen/margin_4"
+                android:text="@{data.genre}"
                 app:layout_constraintEnd_toEndOf="@+id/titleTextView"
                 app:layout_constraintStart_toEndOf="@+id/yearTextView"
                 app:layout_constraintTop_toBottomOf="@+id/titleTextView"

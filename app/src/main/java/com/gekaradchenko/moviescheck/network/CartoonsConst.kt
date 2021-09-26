@@ -7,7 +7,7 @@ class CartoonsConst {
         const val ADVENTURES = "/genres_adventures"
         const val FICTION = "/genres_fiction"
         const val FAMILY = "/genres_family"
-        const val AMINE = "/genres_anine"
+        const val ANINE = "/genres_anine"
         const val FOREIGN = "/genres_foreign"
         const val FANTASY = "/genres_fantasy"
         const val COMICS = "/genres_comics"
