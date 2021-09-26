@@ -28,11 +28,11 @@ const val PAGINATION4 = "/pageToken_PjEyMA=="
 const val BASE_URL1 = "https://megogo.net/ru/films"
 
 
-suspend fun parseMoviesGrid(): List<MovieData> {
+suspend fun parseMoviesGrid(url: String): List<MovieData> {
     val array = ArrayList<MovieData>()
     try {
 
-        val document = Jsoup.connect("$BASE_URL1").get()
+        val document = Jsoup.connect(url).get()
         val movieGrid = document.getElementsByClass("cards-list videos-list")
         val movieItems = movieGrid.first()?.children()
         movieItems?.forEachIndexed { index, element ->

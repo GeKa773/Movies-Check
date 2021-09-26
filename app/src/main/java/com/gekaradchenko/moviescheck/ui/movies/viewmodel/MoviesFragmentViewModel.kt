@@ -19,17 +19,20 @@ class MoviesFragmentViewModel() : ViewModel() {
     val filter = MutableLiveData("By popularity")
     val genre = MutableLiveData("Any")
 
-    private val _languageUrl = MutableLiveData<String>("/ru")
+    private val _languageUrl = MutableLiveData<String>(RU)
     val languageUrl: LiveData<String> = _languageUrl
 
-    private val _typeUrl = MutableLiveData<String>("/films")
+    private val _typeUrl = MutableLiveData<String>(FILMS)
     val typeUrl: LiveData<String> = _typeUrl
 
-    private val _filterUrl = MutableLiveData<String>("")
+    private val _filterUrl = MutableLiveData<String>(FILTER_POPULARITY_DEFAULT)
     val filterUrl: LiveData<String> = _filterUrl
 
-    private val _genreUrl = MutableLiveData<String>("")
+    private val _genreUrl = MutableLiveData<String>(MoviesConst.ANY)
     val genreUrl: LiveData<String> = _genreUrl
+
+    private val _baseUrl = MutableLiveData<String>(getURL())
+    val baseUrl: LiveData<String> = _baseUrl
 
     init {
         getMoviesGrid()
@@ -39,13 +42,24 @@ class MoviesFragmentViewModel() : ViewModel() {
     val moviesList: LiveData<List<MovieData>> = _moviesList
 
 
-    private fun getMoviesGrid() {
+    fun getMoviesGrid() {
         coroutineScope.launch {
-            val array = parseMoviesGrid()
+            val array = parseMoviesGrid(baseUrl.value!!)
             Dispatchers.Main {
                 _moviesList.value = array
+                println("?????????????????????????")
             }
         }
+        println("!!!!!!!!!!!!1")
+    }
+
+    fun getURL(): String {
+        val url = "$BASE_URL${languageUrl.value}${typeUrl.value}${filterUrl.value}${genreUrl.value}"
+        return url
+    }
+
+    fun setBaseUrl() {
+        _baseUrl.value = getURL()
     }
 
 
@@ -60,6 +74,7 @@ class MoviesFragmentViewModel() : ViewModel() {
             1 -> ENG
             else -> ENG
         }
+        setBaseUrl()
     }
 
     fun setType(id: Int) {
@@ -72,6 +87,7 @@ class MoviesFragmentViewModel() : ViewModel() {
             3 -> PREMIERE
             else -> FILMS
         }
+        setBaseUrl()
 
     }
 
@@ -88,6 +104,7 @@ class MoviesFragmentViewModel() : ViewModel() {
                 _filterUrl.value = FILTER_POPULARITY_DEFAULT
             }
         }
+        setBaseUrl()
     }
 
     fun setGenre(id: Int) {
@@ -172,6 +189,7 @@ class MoviesFragmentViewModel() : ViewModel() {
                 else -> MoviesConst.ANY
             }
         }
+        setBaseUrl()
 
     }
 }

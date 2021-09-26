@@ -9,8 +9,8 @@
 
 
     <string-array name="languages">
-        <item>English</item>
         <item>Russian</item>
+        <item>English</item>
     </string-array>
 
     <string-array name="type">

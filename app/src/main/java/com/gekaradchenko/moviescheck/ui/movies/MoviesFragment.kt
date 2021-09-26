@@ -92,6 +92,11 @@ class MoviesFragment : Fragment() {
             moviesAdapter.submitList(it)
         })
 
+        viewModel.baseUrl.observe(viewLifecycleOwner, {
+            viewModel.getMoviesGrid()
+        })
+
+
 
 
         viewModel.typeUrl.observe(viewLifecycleOwner, {
