@@ -5,11 +5,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AbsListView
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.gekaradchenko.moviescheck.R
 import com.gekaradchenko.moviescheck.databinding.FragmentMoviesBinding
 import com.gekaradchenko.moviescheck.network.MULT
@@ -170,22 +172,35 @@ class MoviesFragment : Fragment() {
             AdapterView.OnItemClickListener { parent, _, position, id ->
                 viewModel.setLanguage(id.toInt())
                 viewModel.language.value = parent.getItemAtPosition(position).toString()
+                viewModel.setBaseUrl()
             }
         binding.typeAutoCompleteTextView.onItemClickListener =
             AdapterView.OnItemClickListener { parent, _, position, id ->
                 viewModel.setType(id.toInt())
                 viewModel.type.value = parent.getItemAtPosition(position).toString()
+                viewModel.setBaseUrl()
             }
         binding.filtersAutoCompleteTextView.onItemClickListener =
             AdapterView.OnItemClickListener { parent, _, position, id ->
                 viewModel.setFilter(id.toInt())
                 viewModel.filter.value = parent.getItemAtPosition(position).toString()
+                viewModel.setBaseUrl()
             }
         binding.genresAutoCompleteTextView.onItemClickListener =
             AdapterView.OnItemClickListener { parent, _, position, id ->
                 viewModel.setGenre(id.toInt())
                 viewModel.genre.value = parent.getItemAtPosition(position).toString()
+                viewModel.setBaseUrl()
             }
+
+        binding.moviesRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener(){
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if(!recyclerView.canScrollVertically(1)){
+                    println("!!! !!! !!! !!! !!! !!! !!! !!!")
+                }
+            }
+        })
 
 
         return binding.root

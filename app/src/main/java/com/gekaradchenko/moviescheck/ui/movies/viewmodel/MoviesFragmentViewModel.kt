@@ -31,8 +31,14 @@ class MoviesFragmentViewModel() : ViewModel() {
     private val _genreUrl = MutableLiveData<String>(MoviesConst.ANY)
     val genreUrl: LiveData<String> = _genreUrl
 
+    private val _pageUrl = MutableLiveData<String>(Page.PAGE_1)
+    val pageUrl: LiveData<String> = _pageUrl
+
     private val _baseUrl = MutableLiveData<String>(getURL())
     val baseUrl: LiveData<String> = _baseUrl
+
+    private var page = 1
+    private val maxPage = 12
 
     init {
         getMoviesGrid()
@@ -54,7 +60,8 @@ class MoviesFragmentViewModel() : ViewModel() {
     }
 
     fun getURL(): String {
-        val url = "$BASE_URL${languageUrl.value}${typeUrl.value}${filterUrl.value}${genreUrl.value}"
+        val url =
+            "$BASE_URL${languageUrl.value}${typeUrl.value}${filterUrl.value}${genreUrl.value}${pageUrl.value}"
         return url
     }
 
@@ -74,7 +81,7 @@ class MoviesFragmentViewModel() : ViewModel() {
             1 -> ENG
             else -> ENG
         }
-        setBaseUrl()
+
     }
 
     fun setType(id: Int) {
@@ -87,7 +94,7 @@ class MoviesFragmentViewModel() : ViewModel() {
             3 -> PREMIERE
             else -> FILMS
         }
-        setBaseUrl()
+
 
     }
 
@@ -99,12 +106,7 @@ class MoviesFragmentViewModel() : ViewModel() {
             2 -> FILTER_RECOMMENDATIONS
             else -> FILTER_POPULARITY_DEFAULT
         }
-        typeUrl.value?.let {
-            if (it == PREMIERE) {
-                _filterUrl.value = FILTER_POPULARITY_DEFAULT
-            }
-        }
-        setBaseUrl()
+
     }
 
     fun setGenre(id: Int) {
@@ -189,7 +191,16 @@ class MoviesFragmentViewModel() : ViewModel() {
                 else -> MoviesConst.ANY
             }
         }
-        setBaseUrl()
+    }
+
+    fun setNextPage() {
+        if (page < maxPage){
+            page++
+
+            _pageUrl.value = when(page){
+                else ->Page.PAGE_1
+            }
+        }
 
     }
 }
