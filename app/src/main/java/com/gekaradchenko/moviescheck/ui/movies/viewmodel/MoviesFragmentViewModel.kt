@@ -4,11 +4,15 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.navigation.NavDirections
 import com.gekaradchenko.moviescheck.data.MovieData
+import com.gekaradchenko.moviescheck.helper.SingleLiveEvent
 import com.gekaradchenko.moviescheck.network.*
+import com.gekaradchenko.moviescheck.ui.movies.MoviesFragmentDirections
 import kotlinx.coroutines.*
 import org.jsoup.Jsoup
 
+private const val MAX_PAGE = 12
 
 class MoviesFragmentViewModel() : ViewModel() {
     private val viewModelJob = Job()
@@ -18,6 +22,9 @@ class MoviesFragmentViewModel() : ViewModel() {
     val type = MutableLiveData("Movies")
     val filter = MutableLiveData("By popularity")
     val genre = MutableLiveData("Any")
+
+    private val _navigationEvent = SingleLiveEvent<NavDirections>()
+    val navigationEvent: LiveData<NavDirections> = _navigationEvent
 
     private val _languageUrl = MutableLiveData<String>(RU)
     val languageUrl: LiveData<String> = _languageUrl
@@ -37,8 +44,12 @@ class MoviesFragmentViewModel() : ViewModel() {
     private val _baseUrl = MutableLiveData<String>(getURL())
     val baseUrl: LiveData<String> = _baseUrl
 
-    private var page = 1
-    private val maxPage = 12
+    private val _page = MutableLiveData<Int>(1)
+    val page: LiveData<Int> = _page
+
+    private val _isDownRecyclerView = MutableLiveData<Boolean>(false)
+    val isDownRecyclerView: LiveData<Boolean> = _isDownRecyclerView
+
 
     init {
         getMoviesGrid()
@@ -47,16 +58,18 @@ class MoviesFragmentViewModel() : ViewModel() {
     private val _moviesList = MutableLiveData<List<MovieData>>()
     val moviesList: LiveData<List<MovieData>> = _moviesList
 
+    fun onNavigateClick(url: String) {
+        _navigationEvent.postValue(MoviesFragmentDirections.actionMoviesFragmentToMovieItemFragment(url))
+    }
+
 
     fun getMoviesGrid() {
         coroutineScope.launch {
             val array = parseMoviesGrid(baseUrl.value!!)
             Dispatchers.Main {
                 _moviesList.value = array
-                println("?????????????????????????")
             }
         }
-        println("!!!!!!!!!!!!1")
     }
 
     fun getURL(): String {
@@ -69,7 +82,6 @@ class MoviesFragmentViewModel() : ViewModel() {
         _baseUrl.value = getURL()
     }
 
-
     override fun onCleared() {
         super.onCleared()
         viewModelJob.cancel()
@@ -81,7 +93,6 @@ class MoviesFragmentViewModel() : ViewModel() {
             1 -> ENG
             else -> ENG
         }
-
     }
 
     fun setType(id: Int) {
@@ -94,8 +105,6 @@ class MoviesFragmentViewModel() : ViewModel() {
             3 -> PREMIERE
             else -> FILMS
         }
-
-
     }
 
     fun setFilter(id: Int) {
@@ -106,7 +115,6 @@ class MoviesFragmentViewModel() : ViewModel() {
             2 -> FILTER_RECOMMENDATIONS
             else -> FILTER_POPULARITY_DEFAULT
         }
-
     }
 
     fun setGenre(id: Int) {
@@ -194,13 +202,44 @@ class MoviesFragmentViewModel() : ViewModel() {
     }
 
     fun setNextPage() {
-        if (page < maxPage){
-            page++
-
-            _pageUrl.value = when(page){
-                else ->Page.PAGE_1
+        _page.value?.let {
+            if (it < MAX_PAGE) {
+                _page.value = it + 1
             }
         }
+    }
 
+    fun setBeforePage() {
+        _page.value?.let {
+            if (it > 1) {
+                _page.value = it - 1
+            }
+        }
+    }
+
+    fun pageSetFirst() {
+        _page.value = 1
+    }
+
+    fun setDownRecyclerView(b: Boolean) {
+        _isDownRecyclerView.value = b
+    }
+
+    fun addPage() {
+        _pageUrl.value = when (page.value) {
+            1 -> Page.PAGE_1
+            2 -> Page.PAGE_2
+            3 -> Page.PAGE_3
+            4 -> Page.PAGE_4
+            5 -> Page.PAGE_5
+            6 -> Page.PAGE_6
+            7 -> Page.PAGE_7
+            8 -> Page.PAGE_8
+            9 -> Page.PAGE_9
+            10 -> Page.PAGE_10
+            11 -> Page.PAGE_11
+            12 -> Page.PAGE_12
+            else -> Page.PAGE_1
+        }
     }
 }

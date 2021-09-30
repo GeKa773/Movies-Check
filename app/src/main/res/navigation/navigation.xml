@@ -15,5 +15,9 @@
     <fragment
         android:id="@+id/movieItemFragment"
         android:name="com.gekaradchenko.moviescheck.ui.movieitem.MovieItemFragment"
-        android:label="MovieItemFragment" />
+        android:label="MovieItemFragment" >
+        <argument
+            android:name="url"
+            app:argType="string" />
+    </fragment>
 </navigation>

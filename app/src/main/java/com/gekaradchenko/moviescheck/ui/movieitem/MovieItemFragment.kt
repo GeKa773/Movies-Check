@@ -28,6 +28,8 @@ class MovieItemFragment : Fragment() {
         viewModel = ViewModelProvider(this, factory)[MovieItemFragmentViewModel::class.java]
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
+        val args = MovieItemFragmentArgs.fromBundle(requireArguments())
+        println(" url = ${args.url}")
 
 
 

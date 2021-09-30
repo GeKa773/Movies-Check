@@ -10,6 +10,8 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavDirections
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.gekaradchenko.moviescheck.R
@@ -83,7 +85,7 @@ class MoviesFragment : Fragment() {
 
         //movie item click
         moviesAdapter = MoviesAdapter {
-
+            viewModel.onNavigateClick(it.href)
         }
         binding.moviesRecyclerView.apply {
             adapter = moviesAdapter
@@ -96,6 +98,11 @@ class MoviesFragment : Fragment() {
 
         viewModel.baseUrl.observe(viewLifecycleOwner, {
             viewModel.getMoviesGrid()
+        })
+
+        viewModel.page.observe(viewLifecycleOwner, {
+            viewModel.addPage()
+            viewModel.setBaseUrl()
         })
 
 
@@ -178,32 +185,40 @@ class MoviesFragment : Fragment() {
             AdapterView.OnItemClickListener { parent, _, position, id ->
                 viewModel.setType(id.toInt())
                 viewModel.type.value = parent.getItemAtPosition(position).toString()
+                viewModel.pageSetFirst()
                 viewModel.setBaseUrl()
             }
         binding.filtersAutoCompleteTextView.onItemClickListener =
             AdapterView.OnItemClickListener { parent, _, position, id ->
                 viewModel.setFilter(id.toInt())
                 viewModel.filter.value = parent.getItemAtPosition(position).toString()
+                viewModel.pageSetFirst()
                 viewModel.setBaseUrl()
             }
         binding.genresAutoCompleteTextView.onItemClickListener =
             AdapterView.OnItemClickListener { parent, _, position, id ->
                 viewModel.setGenre(id.toInt())
                 viewModel.genre.value = parent.getItemAtPosition(position).toString()
+                viewModel.pageSetFirst()
                 viewModel.setBaseUrl()
             }
 
-        binding.moviesRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener(){
+        binding.moviesRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                if(!recyclerView.canScrollVertically(1)){
-                    println("!!! !!! !!! !!! !!! !!! !!! !!!")
-                }
+                viewModel.setDownRecyclerView(!recyclerView.canScrollVertically(1))
+
             }
         })
 
 
+        viewModel.navigationEvent.observe(viewLifecycleOwner, ::navigate)
+
         return binding.root
+    }
+
+    private fun navigate(navDirections: NavDirections) {
+        findNavController().navigate(navDirections)
     }
 
 

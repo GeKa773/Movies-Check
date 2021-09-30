@@ -64,8 +64,7 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:background="@color/card_background_color"
-                            android:inputType="none"
-                            />
+                            android:inputType="none" />
                     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -97,8 +96,7 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:background="@color/card_background_color"
-                            android:inputType="none"
-                            />
+                            android:inputType="none" />
                     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -130,8 +128,7 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:background="@color/card_background_color"
-                            android:inputType="none"
-                            />
+                            android:inputType="none" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
@@ -142,6 +139,7 @@
                         android:layout_marginStart="@dimen/default_start_margin_32"
                         android:layout_marginTop="@dimen/margin_15"
                         android:layout_marginEnd="@dimen/default_start_margin_32"
+                        android:layout_marginBottom="20dp"
                         android:hint="@string/hint_genre"
                         android:textColorHint="@color/white"
                         app:boxBackgroundColor="@color/card_background_color"
@@ -151,7 +149,6 @@
                         app:boxStrokeWidth="0dp"
                         app:endIconTint="@color/white"
                         app:hintTextColor="@color/white"
-                        android:layout_marginBottom="20dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -164,8 +161,7 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:background="@color/card_background_color"
-                            android:inputType="none"
-                            />
+                            android:inputType="none" />
                     </com.google.android.material.textfield.TextInputLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -183,8 +179,9 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:clipToPadding="false"
+
                 android:paddingTop="20dp"
-                android:paddingBottom="20dp"
+                android:paddingBottom="80dp"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -193,6 +190,52 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:spanCount="2"
                 tools:listitem="@layout/item_movie" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/beforePageButton"
+                style="@style/TitleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:backgroundTint="@color/card_background_color"
+                android:onClick="@{()->viewModel.setBeforePage()}"
+                android:setVisibility="@{viewModel.isDownRecyclerView()}"
+                android:text="-"
+                app:cornerRadius="@dimen/default_radius_15"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/pageTextView"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/nextPageButton"
+                style="@style/TitleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:backgroundTint="@color/card_background_color"
+                android:onClick="@{()->viewModel.setNextPage()}"
+                android:setVisibility="@{viewModel.isDownRecyclerView()}"
+                android:text="+"
+                app:cornerRadius="@dimen/default_radius_15"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/pageTextView" />
+
+            <TextView
+                android:id="@+id/pageTextView"
+                style="@style/TitleText"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/page_text_view_background"
+                android:gravity="center"
+                android:setVisibility="@{viewModel.isDownRecyclerView()}"
+                android:text="@{viewModel.page.toString()}"
+                app:layout_constraintBottom_toBottomOf="@+id/beforePageButton"
+                app:layout_constraintEnd_toStartOf="@id/nextPageButton"
+                app:layout_constraintStart_toEndOf="@id/beforePageButton"
+                app:layout_constraintTop_toTopOf="@+id/beforePageButton"
+                tools:text="1" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 

@@ -12,6 +12,12 @@ class MoviesAdapter(private val click: (item: MovieData) -> Unit) :
     ListAdapter<MovieData, MoviesAdapter.MovieViewHolder>(DiffCallback) {
     inner class MovieViewHolder(private val binding: ItemMovieBinding) :
         RecyclerView.ViewHolder(binding.root) {
+        init {
+            binding.root.setOnClickListener {
+                click.invoke(getItem(adapterPosition))
+            }
+        }
+
         fun bind(item: MovieData) {
             binding.data = item
             binding.executePendingBindings()
@@ -27,6 +33,7 @@ class MoviesAdapter(private val click: (item: MovieData) -> Unit) :
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
         holder.bind(getItem(position))
+
     }
 
     private companion object DiffCallback : DiffUtil.ItemCallback<MovieData>() {
