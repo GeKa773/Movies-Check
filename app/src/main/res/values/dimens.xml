@@ -9,4 +9,6 @@
     <dimen name="margin_item_image">4dp</dimen>
     <dimen name="margin_item_titile_top">4dp</dimen>
     <dimen name="margin_4">4dp</dimen>
+    <dimen name="actors_photo">130dp</dimen>
+    <dimen name="default_recycler_padding">10dp</dimen>
 </resources>

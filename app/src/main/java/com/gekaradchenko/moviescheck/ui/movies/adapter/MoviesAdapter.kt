@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.gekaradchenko.moviescheck.data.MovieData
 import com.gekaradchenko.moviescheck.databinding.ItemMovieBinding
 
+
 class MoviesAdapter(private val click: (item: MovieData) -> Unit) :
     ListAdapter<MovieData, MoviesAdapter.MovieViewHolder>(DiffCallback) {
     inner class MovieViewHolder(private val binding: ItemMovieBinding) :

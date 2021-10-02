@@ -85,7 +85,7 @@ class MoviesFragment : Fragment() {
 
         //movie item click
         moviesAdapter = MoviesAdapter {
-            viewModel.onNavigateClick(it.href)
+            viewModel.onNavigateClick(it.href, it.image)
         }
         binding.moviesRecyclerView.apply {
             adapter = moviesAdapter

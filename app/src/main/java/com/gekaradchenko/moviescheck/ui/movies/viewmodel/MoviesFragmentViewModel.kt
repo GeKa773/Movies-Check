@@ -58,8 +58,13 @@ class MoviesFragmentViewModel() : ViewModel() {
     private val _moviesList = MutableLiveData<List<MovieData>>()
     val moviesList: LiveData<List<MovieData>> = _moviesList
 
-    fun onNavigateClick(url: String) {
-        _navigationEvent.postValue(MoviesFragmentDirections.actionMoviesFragmentToMovieItemFragment(url))
+    fun onNavigateClick(url: String, image: String) {
+        _navigationEvent.postValue(
+            MoviesFragmentDirections.actionMoviesFragmentToMovieItemFragment(
+                url,
+                image
+            )
+        )
     }
 
 

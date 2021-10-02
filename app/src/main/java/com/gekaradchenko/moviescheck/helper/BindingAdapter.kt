@@ -7,7 +7,11 @@ import com.bumptech.glide.Glide
 import com.gekaradchenko.moviescheck.R
 
 @BindingAdapter("android:load")
-fun ImageView.load(url: String) {
+fun ImageView.load(url: String?) {
+    if (url == null) {
+        this.setImageResource(R.drawable.ic_anonymous)
+        return
+    }
     Glide.with(this.context)
         .load(url)
 //        .centerCrop()
