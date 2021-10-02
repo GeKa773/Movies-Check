@@ -3,6 +3,8 @@ package com.gekaradchenko.moviescheck.ui.splash
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.gekaradchenko.moviescheck.R
@@ -21,33 +23,35 @@ class SplashScreenActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_splash_screen)
 //        val factory = SplashScreenActivityViewModelFactory(applicationContext)
-        viewModel = ViewModelProvider(this, )[SplashScreenActivityViewModel::class.java]
+        viewModel = ViewModelProvider(this)[SplashScreenActivityViewModel::class.java]
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
         val networkConnection = NetworkConnection(applicationContext)
-        networkConnection.observe(this,{isConnected ->
-//            if (isConnected){
-//                binding.inet.text = "Inet = $isConnected"
-//            }else{
-//                binding.inet.text = "Inet = $isConnected"
-//            }
+        networkConnection.observe(this, { isConnected ->
+            if (isConnected) {
 
-                binding.inet.text = "Inet = $isConnected"
+                Handler(Looper.getMainLooper()).postDelayed({
+                    viewModel.onNavigate()
+                }, 2_000)
+            }
+
+            binding.inet.text = "Inet = $isConnected"
         })
 
-        viewModel.go.observe(this, {
-            goNext()
-        })
+
+
+        viewModel.navigationEvent.observe(this, ::navigate)
 
 
     }
 
-    fun goNext() {
+    private fun navigate(b: Boolean) {
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
         finish()
         overridePendingTransition(R.anim.alpha_from_0, R.anim.alpha_from_1)
+
     }
 
 
